@@ -12,5 +12,7 @@ jobs:
       - name: Update Changelog
         id: update-changelog
         uses: ./.github/actions/prepare-release
+        with:
+          changelog: ${{ github.workspace }}/CHANGELOG.md
       - name: Output Version
         run: echo ${{ steps.update-changelog.outputs.new-version }}
