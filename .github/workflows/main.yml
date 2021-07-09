@@ -9,5 +9,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Update Changelog
+        id: update-changelog
+        uses: ./.github/actions/prepare-release
+      - name: Output Version
+        run: echo ${{ steps.update-changelog.outputs.new-version }}
