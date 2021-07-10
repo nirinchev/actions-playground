@@ -17,17 +17,23 @@ jobs:
       - name: Output Version
         run: echo ${{ steps.update-changelog.outputs.new-version }}
       - name: Update package.json
+        id: update-package-json
         uses: jacobtomlinson/gha-find-replace@master
         with:
           find: '"version": "[^"]*"'
           replace: '"version": "${{ steps.update-changelog.outputs.new-version }}"'
           include: ${{ github.workspace }}/package.json
+      - name: Output 1
+        run: echo ${{ steps.update-package-json.outputs.modifiedFiles }}
       - name: Update AssemblyInfo.props
+        id: update-assembly-info
         uses: jacobtomlinson/gha-find-replace@master
         with:
-          find: '<VersionPrefix>[^<]*</VersionPrefix>'
+          find: '<VersionPrefix>[^<]*<\/VersionPrefix>'
           replace: '<VersionPrefix>${{ steps.update-changelog.outputs.new-version }}</VersionPrefix>'
           include: ${{ github.workspace }}/AssemblyInfo.props
+      - name: Output 1
+        run: echo ${{ steps.update-assembly-info.outputs.modifiedFiles }}
       - name: Create Release PR
         uses: peter-evans/create-pull-request@v3
         with:
