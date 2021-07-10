@@ -4,7 +4,7 @@
 * None
 
 ### Enhancements
-* None
+* Some enhancement
 
 ### Compatibility
 * Foo bar
