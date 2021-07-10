@@ -22,7 +22,7 @@ jobs:
         with:
           find: '"version": "[^"]*"'
           replace: '"version": "${{ steps.update-changelog.outputs.new-version }}"'
-          include: ${{ github.workspace }}/package.json
+          include: package.json
       - name: Output 1
         run: echo ${{ steps.update-package-json.outputs.modifiedFiles }}
       - name: Update AssemblyInfo.props
@@ -31,7 +31,7 @@ jobs:
         with:
           find: '<VersionPrefix>[^<]*<\/VersionPrefix>'
           replace: '<VersionPrefix>${{ steps.update-changelog.outputs.new-version }}</VersionPrefix>'
-          include: ${{ github.workspace }}/AssemblyInfo.props
+          include: AssemblyInfo.props
       - name: Output 1
         run: echo ${{ steps.update-assembly-info.outputs.modifiedFiles }}
       - name: Create Release PR
