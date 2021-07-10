@@ -16,3 +16,9 @@ jobs:
           changelog: ${{ github.workspace }}/CHANGELOG.md
       - name: Output Version
         run: echo ${{ steps.update-changelog.outputs.new-version }}
+      - name: Create Release PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: release/${{ steps.update-changelog.outputs.new-version }}
+          title: Prepare for ${{ steps.update-changelog.outputs.new-version }}
+          draft: true
