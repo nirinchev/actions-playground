@@ -1,0 +1,22 @@
+name: Main2
+
+on:
+  push:
+    branches:
+    - main
+    - master
+  pull_request: null
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Echo
+        run: |
+          echo ${GITHUB_REF#refs/heads/}
+          echo ${{ github.event.pull_request.head.sha }}
