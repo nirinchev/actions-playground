@@ -19,5 +19,7 @@ jobs:
       - name: Echo
         run: |
           echo ${GITHUB_HEAD_REF}
-          echo ${GITHUB_REF#refs/heads/}
+          echo ${{ github.event.pull_request.head.ref }}
           echo ${{ github.event.pull_request.head.sha }}
+          echo ${GITHUB_REF#refs/heads/}
+          echo ${GITHUB_SHA}
