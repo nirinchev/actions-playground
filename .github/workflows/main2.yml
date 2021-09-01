@@ -23,3 +23,8 @@ jobs:
           echo ${{ github.event.pull_request.head.sha }}
           echo ${GITHUB_REF#refs/heads/}
           echo ${GITHUB_SHA}
+          echo -------
+          echo ${{ github.event.push}}
+          echo -------
+          echo ${{ github.event.pull_request}}
+          echo -------
