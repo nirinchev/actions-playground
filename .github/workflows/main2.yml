@@ -18,5 +18,6 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Echo
         run: |
+          echo ${GITHUB_HEAD_REF}
           echo ${GITHUB_REF#refs/heads/}
           echo ${{ github.event.pull_request.head.sha }}
