@@ -24,7 +24,5 @@ jobs:
           echo ${GITHUB_REF#refs/heads/}
           echo ${GITHUB_SHA}
           echo -------
-          echo '${{ toJSON(github.event.push)}}'
-          echo -------
-          echo '${{ toJSON(github.event.pull_request)}}'
+          echo '${{ toJSON(github.event)}}'
           echo -------
