@@ -1,11 +1,6 @@
 name: Main2
 
 on:
-  push:
-    branches:
-    - main
-    - master
-  pull_request: null
   workflow_dispatch: null
 
 jobs:
@@ -27,5 +22,26 @@ jobs:
           tag: "10.5.2"
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
-      - name: Echo
-        run: echo "Success"
+      - name: Find Pull Request
+        uses: juliangruber/find-pull-request-action@v1
+        id: find-pull-request
+        with:
+          branch: ${{ github.ref }}
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.find-pull-request.outputs.number }}
+          method: squash
+      - name: Update Github Release
+        uses: ncipollo/release-action@10c84d509b28aae3903113151bfd832314964f2e
+        with:
+          allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          replacesArtifacts: false
+          commit: "main"
+          tag: "10.5.2"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
