@@ -1,8 +1,11 @@
 name: Main2
 
 on:
-  workflow_dispatch: null
-
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'version to release'
+        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,9 +20,9 @@ jobs:
         with:
           artifacts: ${{ github.workspace }}/CHANGELOG.md
           bodyFile: ${{ github.workspace }}/README.md
-          name: "10.5.2"
+          name: ${{ github.event.inputs.version }}
           commit: "main"
-          tag: "10.5.2"
+          tag: ${{ github.event.inputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
       - name: Find Pull Request
@@ -42,6 +45,6 @@ jobs:
           omitPrereleaseDuringUpdate: true
           replacesArtifacts: false
           commit: "main"
-          tag: "10.5.2"
+          tag: ${{ github.event.inputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
