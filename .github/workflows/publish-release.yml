@@ -1,0 +1,50 @@
+name: Main2
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'version to release'
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: False
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Create Github Release
+        uses: ncipollo/release-action@10c84d509b28aae3903113151bfd832314964f2e
+        with:
+          artifacts: ${{ github.workspace }}/CHANGELOG.md
+          bodyFile: ${{ github.workspace }}/README.md
+          name: ${{ github.event.inputs.version }}
+          commit: "main"
+          tag: ${{ github.event.inputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
+      - name: Find Pull Request
+        uses: juliangruber/find-pull-request-action@v1
+        id: find-pull-request
+        with:
+          branch: ${{ github.ref }}
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.find-pull-request.outputs.number }}
+          method: squash
+      - name: Update Github Release
+        uses: ncipollo/release-action@10c84d509b28aae3903113151bfd832314964f2e
+        with:
+          allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          replacesArtifacts: false
+          commit: "main"
+          tag: ${{ github.event.inputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false
