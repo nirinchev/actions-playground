@@ -62,7 +62,7 @@ jobs:
           * Realm Studio: 11.0.0 or later.
 
           ### Internal
-          * Using Core x.y.z." | cat CHANGELOG.md >> temp
+          * Using Core x.y.z." | cat - CHANGELOG.md >> temp
           mv temp CHANGELOG.md
       - name: Echo changelog
         run: cat CHANGELOG.md
