@@ -1,4 +1,4 @@
-## vNext (TBD)
+## 1.3.0 (2021-09-09)
 
 ### Enhancements
 * None
