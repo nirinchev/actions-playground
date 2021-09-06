@@ -1,0 +1,31 @@
+name: Main2
+
+on:
+  push:
+    branches:
+    - main
+    - master
+  pull_request: null
+  workflow_dispatch: null
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          submodules: False
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Create Github Release
+        uses: ncipollo/release-action@10c84d509b28aae3903113151bfd832314964f2e
+        with:
+          artifacts: ${{ github.workspace }}/CHANGELOG.md
+          bodyFile: ${{ github.workspace }}/README.md
+          name: "10.5.2"
+          commit: "main"
+          tag: "10.5.2"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
+      - name: Echo
+        run: echo "Success"
