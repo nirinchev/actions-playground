@@ -71,11 +71,11 @@ jobs:
           branch: prepare-vnext
           title: Prepare for vNext
           body: Update Changelog for vNext
+          delete-branch: true
+          base: main
       - name: Merge Pull Request
         uses: juliangruber/merge-pull-request-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.vnext-pr.outputs.pull-request-number }}
-          delete-branch: true
           method: squash
-          base: main
