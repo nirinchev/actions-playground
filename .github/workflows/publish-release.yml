@@ -48,3 +48,32 @@ jobs:
           tag: ${{ github.event.inputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
+      - name: Update Changelog
+        run: |
+          echo "## vNext (TBD)
+
+          ### Enhancements
+          * None
+
+          ### Fixed
+          * None
+
+          ### Compatibility
+          * Realm Studio: 11.0.0 or later.
+
+          ### Internal
+          * Using Core x.y.z." | cat CHANGELOG.md >> temp && mv temp CHANGELOG.md
+
+      - name: Create vNext PR
+        id: vnext-pr
+        uses: peter-evans/create-pull-request@7380612b49221684fefa025244f2ef4008ae50ad #! 3.10.1
+        with:
+          branch: bot/prepare-vnext
+          title: Prepare for vNext
+          body: Update Changelog for vNext
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.vnext-pr.outputs.pull-request-number }}
+          method: squash
