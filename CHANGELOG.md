@@ -1,4 +1,4 @@
-## vNext (TBD)
+## 1.2.9 (2021-09-09)
 
 ### Enhancements
 * None
@@ -11,6 +11,7 @@
 
 ### Internal
 * Using Core x.y.z.
+
 ## 1.2.8 (2021-09-09)
 
 ### Fixed
